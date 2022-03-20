@@ -1,17 +1,36 @@
 PGraphics pg; 
 
-int tileSize = 1;
+int tileSize = 4;
 PImage image;
+int aWidth;
+int aHeight;
 
 void setup(){
-  size(200,200);
-  pg = createGraphics(100,100);
+  noLoop();
+  image = loadImage("image.png");
+  aWidth = image.width/tileSize;
+  aHeight = image.height/tileSize;
+  pg = createGraphics(aWidth,aHeight);
+}
+
+void settings(){
+  print("settings: " + aWidth + " " + aHeight);
+  size(aWidth,aHeight);
 }
 
 void draw(){
+  print("tileSize: " + tileSize + "\n");
+  print("Image w/h: " + image.width + " " + image.height + "\n");
+  print("Adjusted w/h: " + aWidth + " " + aHeight + "\n");
   pg.beginDraw();
   pg.fill(color(0,0,255));
   pg.rect(0,0,100,100);
   pg.endDraw();
-  image(pg,50,50);
+  image(pg,0,0);
+}
+
+float average(int x, int y){
+  PImage current;
+  
+  return 1;
 }
