@@ -13,15 +13,11 @@ void setup(){
   pg = createGraphics(aWidth,aHeight);
 }
 
-void settings(){
-  print("settings: " + aWidth + " " + aHeight);
-  size(aWidth,aHeight);
-}
-
 void draw(){
   print("tileSize: " + tileSize + "\n");
   print("Image w/h: " + image.width + " " + image.height + "\n");
   print("Adjusted w/h: " + aWidth + " " + aHeight + "\n");
+  
   pg.beginDraw();
   pg.fill(color(0,0,255));
   pg.rect(0,0,100,100);
@@ -30,7 +26,8 @@ void draw(){
 }
 
 float average(int x, int y){
-  PImage current;
+  PImage current = image.get(x,y,tileSize,tileSize);
+  current.loadPixels();
   
   return 1;
 }
