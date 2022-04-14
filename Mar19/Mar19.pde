@@ -5,7 +5,7 @@ int aWidth;
 int aHeight;
 
 //adjust these
-int tileSize = 4;
+int tileSize = 8;
 int threshold = 120;
 
 void setup(){
@@ -19,9 +19,9 @@ void setup(){
 
 void draw(){
   pg.beginDraw();
-  pg.fill(color(255));
-  pg.rect(0,0,aWidth,aHeight);
   pg.fill(color(0));
+  pg.rect(0,0,aWidth,aHeight);
+  pg.stroke(255);
   
   for(int i = 0; i < aWidth; i++){
     for(int j = 0; j < aHeight; j++){
@@ -31,7 +31,6 @@ void draw(){
       if(brightness > threshold){
         pg.point(i,j);
       }
-      
     }
   }
   
