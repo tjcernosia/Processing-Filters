@@ -5,8 +5,18 @@ public class circle{
   float xVelo, yVelo;
   color fillColor;
   
-  public circle(){
-    
+  public circle(float x, float y, float radius){
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    fillColor = color(random(255), random(255), random(255));
+  }
+  
+  public circle(float x, float y, float radius, color fillColor){
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.fillColor = fillColor;
   }
   
   void update(){

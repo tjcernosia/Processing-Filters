@@ -10,3 +10,9 @@ void setup(){
 void draw(){
   
 }
+
+void populate(){
+  for(int i = 0; i < numBalls; i++){
+    balls[i] = new circle(random(500), random(500), random(10));
+  }
+}
