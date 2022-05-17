@@ -4,8 +4,10 @@ class node{
   float xDim,yDim;
   float step;
   pixel pixels[][] = new pixel[3][3];
+  boolean on;
   
   public node(float x, float y, float dim){
+    on = false;
     this.x = x;
     this.y = y;
     xDim = dim;
@@ -21,7 +23,11 @@ class node{
   }
   
   void update(){
-    
+    if(on) on = !on;
+  }
+  
+  void update(node n){
+    pixels = n.pixels;
   }
   
   void draw(){
@@ -30,10 +36,21 @@ class node{
         pixel current = pixels[i][j];
         float xpos = x + i*step;
         float ypos = y + j*step;
-        
         current.update();
-        fill(current.fill);
-        rect(xpos,ypos,step,step);
+        if(on)
+        { 
+          for(int k = 0; k < 3; k++){
+            for(int l = 0; l < 3; l++){
+              fill(pixels[k][l].fill);
+              println("x");
+              rect(x + step * k, y + step * y, step, step);
+            }
+          }
+        }
+        else {
+          fill(color(0));
+          rect(xpos,ypos,step,step);
+        }
       }
     }
   }

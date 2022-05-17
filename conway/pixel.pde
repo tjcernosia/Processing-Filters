@@ -4,7 +4,7 @@ class pixel{
   boolean isOn;
   
   public pixel(){
-    fill = color(0); 
+    fill = color(255); 
     isOn = false;
   }
   
