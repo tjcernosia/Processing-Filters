@@ -10,7 +10,8 @@ public class histogram {
   float colsize;
   
   public histogram(){
-    
+    bucket = 1;
+    colsize = 1;
   }
 
   public histogram(int range) {
@@ -35,11 +36,12 @@ public class histogram {
   void updateData(int[] d) {
     data = d;
   }
-
+  
+  //count data 
   void makeCols() {
     for (int i = 0; i < data.length; i++) {
       cols[(int)data[i]] += 1;
-      println(i + ": " + data[i]);
+      //println(i + ": " + data[i]);
     }
   }
 
@@ -49,11 +51,12 @@ public class histogram {
     makeCols();
     float max = max(cols);
 
-    stroke(15);
-
     for (int i = 0; i < cols.length; i++) {
       float colHeight = map(cols[i], 0, max, 0, height);
+      stroke(100,200);
       line(x+i, y, x+i, y-colHeight);
+      stroke(0);
+      point(x+i, y - colHeight);
     }
   }
   
@@ -71,8 +74,14 @@ public class histogram {
     }
   }
   
+  //draw img
   void draw(float x, float y, float height, PImage img) {
-    println("( " + x + ", " + y + ")");
+    //println("( " + x + ", " + y + ")");
+    img.loadPixels();
+    data = new int[img.pixels.length];
+    
+    for(int i = 0; i < img.pixels.length; i++) data[i] = (int)brightness(img.pixels[i]);
+    
     makeCols();
     float max = max(cols);
 
@@ -80,8 +89,10 @@ public class histogram {
 
     for (int i = 0; i < cols.length; i++) {
       float colHeight = map(cols[i], 0, max, 0, height);
+      stroke(100,200);
       line(x+i, y, x+i, y-colHeight);
-      point(x+i,y-colHeight);
+      stroke(0);
+      point(x+i, y - colHeight);
     }
   }
 }
