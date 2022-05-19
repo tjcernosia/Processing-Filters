@@ -1,8 +1,5 @@
 //***TODO***//
 //Support negative numbers
-//multichannel display
-
-
 
 public class histogram {
 
@@ -51,30 +48,19 @@ public class histogram {
 
   //draw hist with instance variables
   void draw(float x, float y, float height) {
-    println("( " + x + ", " + y + ")");
-    makeCols();
-    float max = max(cols);
-
-    for (int i = 0; i < cols.length; i++) {
-      float colHeight = map(cols[i], 0, max, 0, height);
-      stroke(100,200);
-      line(x+i, y, x+i, y-colHeight);
-      stroke(0);
-      point(x+i, y - colHeight);
-    }
+    drawHelper(x,y,height);
   }
   
   //draw data
-  void draw(float x, float y, float height, int range, int[] data) {
-    this.data = data;
-    cols = new int[range];
-    
+  void draw(float x, float y, float height, int range, int[] d) {
+    clearChannels();
+    data.add(d);
+    cols.add(new int[range]);
     drawHelper(x,y,height);
   }
   
   //draw img
   void draw(float x, float y, float height, PImage img) {
-    
     initImage(img);
     drawHelper(x,y,height);
   }
@@ -106,9 +92,9 @@ public class histogram {
       for(int j = 0; j < current.length; j++){
         float colHeight = map(current[j],0,max,0,height);
         stroke(100,200);
-        line(x+i, y, x+i, y-colHeight);
+        line(x+j, y, x+j, y-colHeight);
         stroke(0);
-        point(x+i, y - colHeight);
+        point(x+j, y - colHeight);
       }
     }
     
@@ -145,6 +131,11 @@ public class histogram {
       data.get(2)[i] = (int)green(img.pixels[i]);
       data.get(3)[i] = (int)blue(img.pixels[i]);
     }
+  }
+  
+  void clearChannels(){
+    data.clear();
+    cols.clear();
   }
   
 }
