@@ -3,9 +3,9 @@ histogram h;
 PImage img;
 
 void setup(){
-  size(256,400);
+  size(575,575);
   
-  img = loadImage("img.JPG");
+  img = loadImage("epic.png");
   img.loadPixels();
   data = new int[256];
   
@@ -14,13 +14,14 @@ void setup(){
   }
   
   h = new histogram();
+  h.drawAxis = true;
   
   noLoop();
 }
 
 void draw(){
   
-  background(255);
+  //image(img,0,0);
   
-  h.draw(0,400,200,img);
+  h.draw(500-255,500,200,img);
 }
