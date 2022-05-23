@@ -6,7 +6,9 @@ public class histogram {
   PImage img;
   ArrayList<int[]> data;
   ArrayList<int[]> cols;
-  int channelCount;
+  color[] channelColors = new color[256];
+  int range;
+  int minValue;
   float bucket;
   float colsize;
   
@@ -42,6 +44,22 @@ public class histogram {
 
   void addChannel(int[] d){
     data.add(d);  
+    cols.add(new int[range]);
+  }
+  
+  void addChannel(int[] d, int r){
+    if(r < range){
+      throw new IllegalArgumentException("Invalid range: " + r);
+    }
+    
+    range = r;
+    data.add(d);  
+    cols.add(new int[range]);
+  }
+  
+  void setChannelColor(int idx, color c){
+    if(idx < 0 || idx >= data.size()) throw new IllegalArgumentException("Invalid channel idx: " + idx);  
+    channelColors[idx] = c;
   }
 
  //****------------Draw functions------------****//
@@ -54,6 +72,7 @@ public class histogram {
   //draw data
   void draw(float x, float y, float height, int range, int[] d) {
     clearChannels();
+    this.range = range;
     data.add(d);
     cols.add(new int[range]);
     drawHelper(x,y,height);
@@ -61,6 +80,7 @@ public class histogram {
   
   //draw img
   void draw(float x, float y, float height, PImage img) {
+    clearChannels();
     initImage(img);
     drawHelper(x,y,height);
   }
@@ -68,6 +88,17 @@ public class histogram {
  //****------------Helper Functions------------****//
   
   private void drawHelper(float x,float y,float height){
+    
+    //determine max/min value in all channels
+    float max = 0;
+    
+    for(int i = 0; i < cols.size();i++){
+      int[] current = cols.get(i);
+      println(current[0]);
+      float currentMax = max(current);
+      if(currentMax > max)
+        max = currentMax;
+    }
     
     //init columns
     makeCols();
@@ -77,27 +108,28 @@ public class histogram {
       line(x-1,y+1,x+256,y+1);
     }
     
-    //determine max value in all columns
-    float max = 0;
-    
-    for(int i = 0; i < cols.size();i++){
-      float currentMax = max(cols.get(i));
-      if(currentMax > max)
-        max = currentMax;
-    }
-    
     //draw each channel
     for(int i = cols.size() - 1; i >= 0; i--){
       int[] current = cols.get(i);
       for(int j = 0; j < current.length; j++){
         float colHeight = map(current[j],0,max,0,height);
-        stroke(100,200);
+        stroke(100,150);
         line(x+j, y, x+j, y-colHeight);
-        stroke(0);
-        point(x+j, y - colHeight);
       }
     }
     
+    //draw lines on top of channels
+    noFill();
+    for(int i = cols.size() - 1; i >= 0; i--){
+      int[] current = cols.get(i);
+      stroke(0);
+      beginShape();
+      for(int j = 0; j < current.length; j++){
+        float colHeight = map(current[j],0,max,0,height);
+        curveVertex(x+j, y - colHeight);
+      }
+      endShape();
+    }
   }
   
   //count data 
@@ -116,12 +148,14 @@ public class histogram {
   }
   
   private void initImage(PImage img){
+    minValue = 0;
+    range = 256;
     img.loadPixels();
     int len = img.pixels.length;
     //one array each for brightness and r,g,b channels 
     for(int i = 0; i < 4; i++){
       data.add(new int[len]);
-      cols.add(new int[256]);
+      cols.add(new int[range]);
     }
     
     //copy values into data
@@ -136,6 +170,7 @@ public class histogram {
   void clearChannels(){
     data.clear();
     cols.clear();
+    range = -1;
   }
   
 }
