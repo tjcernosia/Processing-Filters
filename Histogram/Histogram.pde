@@ -6,6 +6,7 @@ public class histogram {
   PImage img;
   ArrayList<int[]> data;
   ArrayList<int[]> cols;
+  color[] channelColors;
   int channelCount;
   float bucket;
   float colsize;
@@ -20,6 +21,7 @@ public class histogram {
     colsize = 1;
     data = new ArrayList<int[]>();
     cols = new ArrayList<int[]>();
+    channelColors = new color[256];
   }
 
   public histogram(int range) {
@@ -43,6 +45,11 @@ public class histogram {
   void addChannel(int[] d){
     data.add(d);  
   }
+  
+  void setChannelColor(int idx, color c){
+    channelColors[idx] = c;
+  }
+  
 
  //****------------Draw functions------------****//
 
@@ -91,11 +98,24 @@ public class histogram {
       int[] current = cols.get(i);
       for(int j = 0; j < current.length; j++){
         float colHeight = map(current[j],0,max,0,height);
-        stroke(100,200);
+        stroke(80,130);
         line(x+j, y, x+j, y-colHeight);
         stroke(0);
         point(x+j, y - colHeight);
       }
+    }
+    
+    //draw channel cap
+    for(int i = cols.size() - 1; i >= 0; i--){
+      int[] current = cols.get(i);
+      stroke(channelColors[i]);
+      noFill();
+      beginShape();
+      for(int j = 0; j < current.length; j++){
+        float colHeight = map(current[j],0,max,0,height);
+        vertex(x+j,y-colHeight); 
+      }
+      endShape();
     }
     
   }
@@ -131,11 +151,20 @@ public class histogram {
       data.get(2)[i] = (int)green(img.pixels[i]);
       data.get(3)[i] = (int)blue(img.pixels[i]);
     }
+    
+    //set channel colors
+    channelColors[0] = color(100,200); //brightness channel
+    channelColors[1] = color(200,0,0); //red channel
+    channelColors[2] = color(0,200,0); //green channel
+    channelColors[3] = color(0,0,200); //blue channel
   }
   
   void clearChannels(){
     data.clear();
     cols.clear();
+    for(int i = 0; i < channelColors.length; i++){
+      channelColors[i] = 0;
+    }
   }
   
 }
