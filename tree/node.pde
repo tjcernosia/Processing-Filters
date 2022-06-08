@@ -1,11 +1,14 @@
 class node{
   
   ArrayList<node> branches;
+  node parent;
   String data;
   int numNodes;
   float w,x,y,step; 
   
   public node(String s, float x, float y, float w, float step){
+    
+    parent = null;
     
     this.w = w;
     this.x = x;
@@ -20,6 +23,7 @@ class node{
   void addBranch(String s){
     //create node
     node n = new node(s, x, y + step, w/numBranches(), step);
+    parent = this;
     
     //check if node has branches
     if(branches == null){
@@ -44,10 +48,18 @@ class node{
     return branches.size();
   }
   
+  int numRealBranches(){
+    int total = 0;
+    if(branches == null) return 1;
+    for(int i = 0; i < numBranches(); i++){
+      node current = branches.get(i);
+      if(current.branches != null)
+        total++;
+    }
+    return total;
+  }
+  
   void draw(){
-    //draw text
-    textAlign(CENTER);
-    text(data, x, y);
     
     //draw branches
     for(int i = 0; i < numBranches(); i++){
@@ -58,6 +70,11 @@ class node{
         current.draw();
       }
     }
+    
+    //draw text
+    textAlign(CENTER);
+    text(data, x, y);
+    
   }
   
 }
