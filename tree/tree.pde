@@ -1,4 +1,4 @@
-node tree = new node("start", 250,20 ,500,100);
+node tree = new node("start", 250,500 ,500,-100);
 
 void setup(){
   size(500,500);
@@ -11,6 +11,7 @@ void setup(){
   tree.branches.get(0).addBranch("firstfirst");
   tree.branches.get(0).branches.get(0).addBranch("wow");
   tree.branches.get(0).branches.get(0).addBranch("wowee");
+  noLoop();
 }
 
 void draw(){
