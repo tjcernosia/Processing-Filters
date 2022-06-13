@@ -6,13 +6,14 @@ abstract class shape{
   float x,y;
   //contains corresponding shape masked image data 
   PImage img;
+  PImage mask;
   
   public shape(float x, float y){
     this.x = x;
     this.y = y;
   }
   
-  abstract void imgFind(float tolerance, ArrayList<PImage> images);
+  abstract void imgFind(float tolerance);
   abstract void draw();
   abstract boolean intersect(float x, float y);
 }
