@@ -6,7 +6,8 @@ class circle extends shape {
     super(x, y);
     this.extent = extent;
     generateMask();
-    imgFind(5);
+    imgFind(2);
+    draw();
   }
 
   void imgFind(float tolerance) {
@@ -21,21 +22,20 @@ class circle extends shape {
         int ry = (int)random(current.height - extent);
         current = current.get(rx,ry,(int)extent,(int)extent);
         
-        //println(sqrt(pow(getBrightness(current) - masterBrightness, 2)));
         if(sqrt(pow(getBrightness(current) - masterBrightness, 2)) < tolerance){
           println("FOUND (tolerance: " + tolerance + ") (diff^2: " + sqrt(pow(getBrightness(current) - masterBrightness, 2))+")");
           println("current brightness: " + getBrightness(current));
           println("master brightness: " + masterBrightness);
           img = current;
-          tint(getTint(masterSection));
+          img.filter(GRAY);
           img.mask(mask);
           return;
         }
       }
     }
     
-    println("match not found, tolerance increased to: " + (tolerance + 5));
-    imgFind(tolerance + 5);
+    println("match not found, tolerance increased to: " + (tolerance + 1));
+    imgFind(tolerance + 1);
   }
 
   void generateMask() {
@@ -56,5 +56,10 @@ class circle extends shape {
   }
 
   void draw() {
+    canvas.beginDraw();
+    canvas.tint(getTint(img));
+    canvas.image(img,x*scale,y*scale);
+    canvas.tint(255);
+    canvas.endDraw();
   }
 }

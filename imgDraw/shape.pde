@@ -1,7 +1,7 @@
 abstract class shape{
   
   //number of times findImg will check an image for matching section
-  final int maxFindAttempt = 100;
+  final int maxFindAttempt = 10;
   //no matter shape defined as as upper left most point of shape
   float x,y;
   //contains corresponding shape masked image data 

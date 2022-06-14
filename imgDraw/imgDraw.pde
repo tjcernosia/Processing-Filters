@@ -1,5 +1,8 @@
+import java.util.*;
+
 PImage master;
 
+int scale = 1;
 String imgPrefix = "images/img";
 String imgExt = ".jpg";
 ArrayList<PImage> images = new ArrayList<PImage>();
@@ -10,11 +13,11 @@ PGraphics canvas;
 
 void setup(){
   
-  size(600,600);
-  
   //****LOAD IMAGES/CREATE CANVAS****//
-  master = loadImage("images/img9.jpg");
+  master = loadImage("images/img8.jpg");
   master.loadPixels();
+  
+  canvas = createGraphics(master.width * scale, master.height * scale);
   
   int numImages = 10;
   
@@ -23,14 +26,16 @@ void setup(){
       PImage current = loadImage(imgPrefix + i + imgExt);
       current.loadPixels();
       images.add(current);
-      //println(imgPrefix + i + imgExt + " success");
+      println(imgPrefix + i + imgExt + " success");
     } catch(Exception e){
       //println("Image: " + imgPrefix + i + imgExt + " not found");
     }
   }
   
+  Collections.shuffle(images);
+  
   //****INIT SHAPES****//
-  s = new circle(900,1500,300);
+  s = new circle(50,500,300);
   
   noLoop();
 }
@@ -61,10 +66,10 @@ color getTint(PImage image){
   
   color c = color(red/image.pixels.length, green/image.pixels.length, blue/image.pixels.length);
   
+  println("RED: " + red(c) + " GREEN: " + green(c) + " BLUE: " + blue(c));
+  
   return c;
 }
 
 void draw(){
-  image(s.img,0,0);
-  image(master.get(900,1500,300,300),300,0);
 }
