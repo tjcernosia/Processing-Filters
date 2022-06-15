@@ -3,9 +3,13 @@ import java.util.*;
 //********SKETCH SETTINGS********//
 //make sure to change master image
 //path in setup();
-int scale = 2;
+int scale = 3;
 int framecount = 0;
-int shapecount = 20000;
+int shapecount = 10000;
+int initialThreshold = 2;
+int numThreads = 8;
+float shapeMaxSize = 10;
+float shapeMinSize = 100;
 String imgPrefix = "images/img";
 String imgExt = ".jpg";
 //0 = brightness 
@@ -17,13 +21,17 @@ int mode = 2;
 PImage master;
 ArrayList<PImage> images = new ArrayList<PImage>();
 PGraphics canvas;
+multithread[] threads = new multithread[numThreads];
+String threadNamePrefix = "thread";
+int stepCount = 0;
 
 void setup(){
   
-  //********LOAD IMAGES/CREATE CANVAS********//
-  master = loadImage("images/img9.jpg");
-  master.loadPixels();
+  size(100,100);
   
+  //********LOAD IMAGES/CREATE CANVAS********//
+  master = loadImage("test.png");
+  master.loadPixels();
   canvas = createGraphics(master.width * scale, master.height * scale);
   canvas.beginDraw();
   canvas.background(255);
@@ -46,13 +54,22 @@ void setup(){
   
   Collections.shuffle(images);
   
+  //****THREADS****//
+  int threadSteps = shapecount/numThreads;
+  
+  for(int i = 0; i < numThreads; i++){
+    threads[i] = new multithread((threadNamePrefix + i), threadSteps);
+    threads[i].start();
+  }
+  
   noLoop();
 }
 
 void draw(){
-  shape current;
+  /*shape current;
+  
   for(int i = 0; i < shapecount; i++){
-    float extent = random(10,100);
+    float extent = random(shapeMinSize,shapeMaxSize);
     float x = random(canvas.width - extent);
     float y = random(canvas.height - extent);
     
@@ -72,13 +89,16 @@ void draw(){
     Collections.shuffle(images);
     //clean memory
     current = null;
-    System.gc();
-    
+    System.gc();*/
+  
+  for(int i = 0; i < numThreads; i++){
+    try{
+      threads[i].join();
+    } catch (InterruptedException e){
+      e.printStackTrace();
+    }
   }
   
-  println("FINISHED");
-  canvas.save("examples/finished.jpg");
-  exit();
 }
 
 float getBrightness(PImage image){
@@ -160,4 +180,10 @@ boolean checkDiff(PImage img1, PImage img2, float tolerance){
   }
   
   return false;
+}
+
+void mouseClicked(){
+  canvas.save("examples/jfa.jpg");
+  println("SAVED");
+  exit();
 }

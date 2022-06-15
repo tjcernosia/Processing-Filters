@@ -13,10 +13,10 @@ abstract class shape{
     this.y = y;
     this.extent = extent;
     generateMask();
-    imgFind(2);
+    imgFind(initialThreshold);
     draw();
     //can use to generate procedural demonstration
-    println("STEP " + (++framecount) + " COMPLETE"); 
+    //println("STEP " + (++framecount) + " COMPLETE"); 
     //canvas.save("frames/frame" + ".jpg");
   }
   
@@ -30,9 +30,9 @@ abstract class shape{
         int ry = (int)random(current.height - extent);
         current = current.get(rx,ry,(int)extent,(int)extent);
         
-        float diff = getDiff(current, masterSection);
+        //float diff = getDiff(current, masterSection);
         if(checkDiff(current, masterSection, tolerance)){
-          println("FOUND (tolerance: " + tolerance + ") (diff^2: " + diff +")");
+          //println("FOUND (tolerance: " + tolerance + ") (diff^2: " + diff +")");
           //println("current brightness: " + getBrightness(current));
           //println("master brightness: " + masterBrightness);
           img = current;
@@ -41,8 +41,8 @@ abstract class shape{
         }
       }
     }
-    println("Match not found, increasing tolerance to: " + tolerance);
-    imgFind(tolerance + 1);
+    //println("Match not found, increasing tolerance to: " + (++tolerance));
+    imgFind(tolerance);
   }
   
   void draw() {
