@@ -16,5 +16,4 @@ class circle extends shape {
 
     mask = m.get();
   }
-
 }
