@@ -4,7 +4,7 @@ class spring {
   node toNode;
 
   float length = 50;
-  float stiffness = .04;
+  float stiffness = .07;
   float damping = .99;
 
   spring(node toNode, node fromNode) {
@@ -30,7 +30,7 @@ class spring {
   }
 
   void draw() {
-    stroke(map(PVector.dist(fromNode, toNode), 0, 500, 50, 120), 180, 255-map(PVector.dist(fromNode, toNode), 0, 2500, 0, 200));
+    stroke(map(PVector.dist(fromNode, toNode), 0, 500, 100, 150), 88, 255-map(PVector.dist(fromNode, toNode), 0, 2000, 0, 200));
     strokeWeight(map(PVector.dist(fromNode, toNode), 0, 500, 1, 10));
     line(toNode.x,toNode.y,fromNode.x,fromNode.y);
   }

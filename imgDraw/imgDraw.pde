@@ -5,7 +5,7 @@ import java.util.*;
 //path in setup();
 int scale = 2;
 int framecount = 0;
-int shapecount = 20000;
+int shapecount = 5000;
 int initialThreshold = 2;
 int numThreads = 8;
 float shapeMaxSize = 200;

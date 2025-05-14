@@ -4,8 +4,11 @@ class node extends PVector {
   float minX = 30, minY = 30, maxX = width - 30, maxY = height - 30;
   float damping = .1;
   int connections = 0;
+  
+  //**attraction**//
   float radius = 0;
   float strength = -5;
+  //**************//
 
   public node(float x, float y) {
     this.x = x;

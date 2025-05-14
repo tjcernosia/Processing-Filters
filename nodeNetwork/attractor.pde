@@ -27,4 +27,10 @@ class attractor{
       n.velocity.y += dy * f;
     }
   }
+  
+  //**SETTERS**//
+  void setRadius(float r){
+    radius = r;
+  }
+  
 }
