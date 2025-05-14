@@ -1,16 +1,17 @@
-int numRect = 40; //change the number of squares
+int numRect = 30; //change the number of squares
 float initialSize = 1500; //change the initialsize of squares
 int timestamp = 0; //initialize counter
-float maxRotation = radians(180/numRect); //change maximum rotation when sin = -1 or 1
+float maxRotation = radians(360/numRect); //change maximum rotation when sin = -1 or 1
 
-void setup(){
+void setup(){ //setup loop runs once 
   fullScreen();
   rectMode(CENTER); //draw rectangles from center
   colorMode(HSB, 100,100,100); //rgb gets really brown when you shift through colors
   noStroke(); //get rid of outlines
 }
 
-void draw(){ //draw loop loops indefinitely
+//draw loop loops indefinitely after setup 
+void draw(){ 
   timestamp++; //every draw iteration increment counter 
   float size = initialSize + map(sin(radians(timestamp)), -1, 1, 0, 500); //size shifts with sin, doesn't change size of smallest shape
   float sizeDelta = size/numRect; //calculate how much smaller each rectangle should be from the last
